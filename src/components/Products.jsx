@@ -4,7 +4,9 @@ import { fetchData } from "../redux/actions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { sortByDsc, sortByAsc } from "../redux/actions";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
+
 const Products = (props) => {
   useEffect(() => {
     props.fetchData();
@@ -14,6 +16,7 @@ const Products = (props) => {
   const loading = useSelector((state) => state.loading);
   const error = useSelector((state) => state.error);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return loading === true ? (
     <div className="loader"></div>
@@ -26,7 +29,9 @@ const Products = (props) => {
           onChange={(e) =>
             e.target.value == "sortByAsc"
               ? dispatch(sortByAsc())
-              : e.target.value == "sortByDsc" ? dispatch(sortByDsc()) : ""
+              : e.target.value == "sortByDsc"
+              ? dispatch(sortByDsc())
+              : ""
           }
         >
           <option value="default">default</option>
@@ -50,7 +55,7 @@ const Products = (props) => {
               <p>{data.price}-Rs</p>
             </div>
 
-            <button className="buy">Buy</button>
+            <button className="buy"   onClick={()=> navigate("/about", {state:data.id})}>Buy</button>
           </div>
         );
       })}

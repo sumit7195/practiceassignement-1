@@ -66,3 +66,32 @@ export const sortByDsc = ()=>{
 
 
 }
+
+
+export const productDetail = (data)=>{
+
+          return {
+              type: "PRODUCT_DETAIL",
+              payload : data
+         
+
+          }
+
+
+}
+
+export function fetchDetail(id) {
+    
+  return function (dispatch) {
+      dispatch(fetchUserRequest());
+    return axios
+      .get( `https://movie-fake-server.herokuapp.com/products/${id}`)
+      .then(({ data }) => {
+        dispatch(productDetail(data));
+      })
+      .catch((error)=>{
+          dispatch(fetchUserFailure(error.message))
+      })
+      ;
+  };
+}
